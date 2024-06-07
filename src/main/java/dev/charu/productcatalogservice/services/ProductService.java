@@ -14,7 +14,7 @@ public interface ProductService {
 
     Optional<Product> getSingleProduct(Long productId) throws NotFoundException;
 
-    Product addNewProduct(ProductDto product);
+    Optional<Product> addNewProduct(ProductDto product);
 
 
     Product updateProduct(Long productId, Product product);

@@ -6,7 +6,6 @@ import dev.charu.productcatalogservice.dtos.ProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Category;
 import dev.charu.productcatalogservice.models.Product;
-import dev.charu.productcatalogservice.repository.productRepository;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Primary;
@@ -73,15 +72,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> getSingleProduct(Long productId) throws NotFoundException {
-        //FakeStoreProductDto fakeStoreProductDto = (FakeStoreProductDto) redisTemplate.opsForHash().get(productId, "PRODUCTS");
 
-
-//        RestTemplate restTemplate = restTemplateBuilder.build();
-//        ResponseEntity<FakeStoreProductDto> response =  restTemplate.getForEntity(
-//                "https://fakestoreapi.com/products/{id}",
-//                FakeStoreProductDto.class, productId);
-//
-//        FakeStoreProductDto productDto = response.getBody();
         Optional<FakeStoreProductDto>productDto=fakeStoreClient.getSingleProduct(productId);
 
 
@@ -89,58 +80,32 @@ public class FakeStoreProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addNewProduct(ProductDto product) {
+    public Optional<Product> addNewProduct(ProductDto product) {
 
-//        Long id = product.getId();;
-//        if (id != null) {
-//            getSingleProduct(id)
-//        }
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> response = restTemplate.postForEntity(
-                "https://fakestoreapi.com/products",
-                product,
-                FakeStoreProductDto.class
-        );
 
-        FakeStoreProductDto productDto = response.getBody();
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+//        ResponseEntity<FakeStoreProductDto> response = restTemplate.postForEntity(
+//                "https://fakestoreapi.com/products",
+//                product,
+//                FakeStoreProductDto.class
+//        );
 
-        return convertFakeStoreProductDtoToProduct(productDto);
+        //FakeStoreProductDto productDto = response.getBody()
+
+        Optional<FakeStoreProductDto>productDto=fakeStoreClient.addNewProduct(product);
+
+
+        return Optional.of(convertFakeStoreProductDtoToProduct(productDto.get()));
+
+        //return convertFakeStoreProductDtoToProduct(productDto);
     }
 
     @Override
     public Product updateProduct(Long productId, Product product) {
-        RestTemplate restTemplate = restTemplateBuilder.requestFactory(
-                HttpComponentsClientHttpRequestFactory.class
-        ).build();
-//        restTemplate.pat
 
-        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
-        fakeStoreProductDto.setDescription(product.getDescription());
-        fakeStoreProductDto.setImage(product.getImageUrl());
-        fakeStoreProductDto.setPrice(product.getPrice());
-        fakeStoreProductDto.setTitle(product.getTitle());
-        fakeStoreProductDto.setCategory(product.getCategory().getName());
-
-
-        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = requestForEntity(
-                HttpMethod.PATCH,
-                "https://fakestoreapi.com/products/{id}",
-                fakeStoreProductDto,
-                FakeStoreProductDto.class,
-                productId
-        );
-
-//        if (fakeStoreProductDtoResponseEntity.getHeaders())
-
-
-        FakeStoreProductDto fakeStoreProductDtoResponse = restTemplate.patchForObject(
-                "https://fakestoreapi.com/products/{id}",
-                fakeStoreProductDto,
-                FakeStoreProductDto.class,
-                productId
-        );
-
+        FakeStoreProductDto fakeStoreProductDtoResponse= fakeStoreClient.updateProduct(productId,product);
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDtoResponse);
+
 
 //        return convertFakeStoreProductDtoToProduct(fakeStoreProductDtoResponseEntity.getBody());
     }

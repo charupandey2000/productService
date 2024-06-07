@@ -104,7 +104,10 @@ public ResponseEntity<List<Product>> getAllProducts() {
         newProduct.setPrice(product.getPrice());
 
         //newProduct = productRepository.save(newProduct);
-        Product Responseproduct =productservice.addNewProduct(product);
+        Optional<Product> Responseproduct =productservice.addNewProduct(product);
+
+        Product product2=Responseproduct.get();
+
         ResponseEntity<Product> response = new ResponseEntity<>(newProduct, HttpStatus.OK);
 
         return response;

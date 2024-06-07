@@ -6,7 +6,9 @@ import dev.charu.productcatalogservice.models.Product;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,13 +46,51 @@ public class FakeStoreClient {
         return Optional.of(productDto);
     }
 
-    FakeStoreProductDto addNewProduct(ProductDto product) {
-        return null;
+    public Optional<FakeStoreProductDto> addNewProduct(ProductDto product) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto> response = restTemplate.postForEntity(
+                "https://fakestoreapi.com/products",
+                product,
+                FakeStoreProductDto.class
+        );
+
+        FakeStoreProductDto productDto=response.getBody();
+        return Optional.of(productDto);
     }
 
 
-    FakeStoreProductDto updateProduct(Long productId, Product product) {
-        return null;
+     public FakeStoreProductDto updateProduct(Long productId, Product product) {
+        RestTemplate restTemplate = restTemplateBuilder.requestFactory(
+                HttpComponentsClientHttpRequestFactory.class
+        ).build();
+//        restTemplate.pat
+
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setDescription(product.getDescription());
+        fakeStoreProductDto.setImage(product.getImageUrl());
+        fakeStoreProductDto.setPrice(product.getPrice());
+        fakeStoreProductDto.setTitle(product.getTitle());
+        fakeStoreProductDto.setCategory(product.getCategory().getName());
+
+
+//        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = requestForEntity(
+//                HttpMethod.PATCH,
+//                "https://fakestoreapi.com/products/{id}",
+//                fakeStoreProductDto,
+//                FakeStoreProductDto.class,
+//                productId
+//        );
+
+//        if (fakeStoreProductDtoResponseEntity.getHeaders())
+
+
+        FakeStoreProductDto fakeStoreProductDtoResponse = restTemplate.patchForObject(
+                "https://fakestoreapi.com/products/{id}",
+                fakeStoreProductDto,
+                FakeStoreProductDto.class,
+                productId
+        );
+        return fakeStoreProductDtoResponse;
     }
 
     FakeStoreProductDto replaceProduct(Long productId, Product product) {
