@@ -4,11 +4,13 @@ import dev.charu.productcatalogservice.dtos.ProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Product;
 import dev.charu.productcatalogservice.repository.ProductRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service(value = "selfProductService")
+
 public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
 

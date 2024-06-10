@@ -1,16 +1,21 @@
 package dev.charu.productcatalogservice.controller;
 
+import dev.charu.productcatalogservice.AuthenticationClient.AuthenticationClient;
+import dev.charu.productcatalogservice.AuthenticationClient.Dtos.SessionStatus;
+import dev.charu.productcatalogservice.AuthenticationClient.Dtos.ValidatetokenResponseDto;
 import dev.charu.productcatalogservice.dtos.ProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Category;
 import dev.charu.productcatalogservice.models.Product;
 import dev.charu.productcatalogservice.services.ProductService;
+import io.micrometer.common.lang.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.Role;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +23,10 @@ import java.util.Optional;
 @RequestMapping("/product")
 public class ProductController {
     public ProductService productservice;
-
-    public ProductController(ProductService productservice){
+    public AuthenticationClient authenticationClient;
+    public ProductController(ProductService productservice,AuthenticationClient authenticationClient){
         this.productservice=productservice;
+        this.authenticationClient=authenticationClient;
     }
 
 //@GetMapping ("/{productid}")
@@ -72,7 +78,24 @@ public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long 
 //    return response;
 //}
 @GetMapping()
-public ResponseEntity<List<Product>> getAllProducts() {
+public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token , @Nullable @RequestHeader("USER_ID") Long userId){
+  if(token==null || userId==null){
+    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+}
+    ValidatetokenResponseDto response=authenticationClient.validate(token,userId);
+      //System.out.println("charu");
+//    if (response.getSessionStatus().equals(SessionStatus.INVALID)) {
+//        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//    boolean isadmin=false;
+//    for(Role role:response.getUserDto().getRoles()){
+//        if(role.getRoleName().equals("ADMIN")){
+//            isadmin=true;
+//        }
+//    }
+//    if(!isadmin){
+//        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//    }
 
 
     List<Product> products = productservice.getAllProducts();
@@ -80,6 +103,12 @@ public ResponseEntity<List<Product>> getAllProducts() {
 
     return new ResponseEntity<>(products, HttpStatus.OK);
 }
+
+//    @GetMapping()
+//    public ResponseEntity<List<Product>> getAllProducts(){
+//        List<Product> products = productservice.getAllProducts();
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
 
 //@PostMapping()
 //public Product addanewproduct(@RequestBody ProductDto product){
