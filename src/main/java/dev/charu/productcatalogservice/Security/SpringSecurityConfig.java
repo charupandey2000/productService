@@ -14,7 +14,7 @@ public class SpringSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
 
-                                .anyRequest().authenticated()).oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+                                .anyRequest().permitAll()).oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
 
 
         return http.build();

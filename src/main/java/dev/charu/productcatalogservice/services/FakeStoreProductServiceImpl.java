@@ -9,6 +9,7 @@ import dev.charu.productcatalogservice.models.Product;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -27,9 +28,13 @@ public class FakeStoreProductServiceImpl implements ProductService {
     private FakeStoreClient fakeStoreClient;
     private Map<Long, Object> fakeStoreProducts = new HashMap<>();
 
-    public FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreClient fakeStoreClient) {
+    private RedisTemplate<Long, Object> redisTemplate;
+
+
+    public FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreClient fakeStoreClient,RedisTemplate redisTemplate) {
         this.restTemplateBuilder = restTemplateBuilder;
         this.fakeStoreClient = fakeStoreClient;
+        this.redisTemplate=redisTemplate;
 
     }
 
@@ -72,11 +77,41 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> getSingleProduct(Long productId) throws NotFoundException {
+//        FakeStoreProductDto fakeStoreProductDto = (FakeStoreProductDto) redisTemplate.opsForHash().get(productId, "PRODUCTS");
+//
+//        if (fakeStoreProductDto != null) {
+//            return Optional.of(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
+//        }
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+//        ResponseEntity<FakeStoreProductDto> response =  restTemplate.getForEntity(
+//                "https://fakestoreapi.com/products/{id}",
+//                FakeStoreProductDto.class, productId);
+//
+//        FakeStoreProductDto productDto = response.getBody();
+////        fakeStoreProducts.put(productId, productDto);
+//        if (productDto == null) {
+//            return Optional.empty();
+//        }
+//       redisTemplate.opsForHash().put(productId, "PRODUCTS", productDto);
+//
+//        return Optional.of(convertFakeStoreProductDtoToProduct(productDto));
 
+        FakeStoreProductDto fakeStoreProductDto = (FakeStoreProductDto) redisTemplate.opsForHash().get(productId, "PRODUCTS");
+
+        if (fakeStoreProductDto != null) {
+            return Optional.of(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
+        }
         Optional<FakeStoreProductDto>productDto=fakeStoreClient.getSingleProduct(productId);
 
+        if (productDto.isEmpty()) {
+            return Optional.empty();
+        }
+        FakeStoreProductDto productDto1 = productDto.get();
+//        fakeStoreProducts.put(productId, productDto);
 
-        return Optional.of(convertFakeStoreProductDtoToProduct(productDto.get()));
+        redisTemplate.opsForHash().put(productId, "PRODUCTS", productDto1);
+
+        return Optional.of(convertFakeStoreProductDtoToProduct(productDto1));
     }
 
     @Override
