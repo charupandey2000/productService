@@ -4,11 +4,13 @@ import dev.charu.productcatalogservice.AuthenticationClient.AuthenticationClient
 import dev.charu.productcatalogservice.AuthenticationClient.Dtos.SessionStatus;
 import dev.charu.productcatalogservice.AuthenticationClient.Dtos.ValidatetokenResponseDto;
 import dev.charu.productcatalogservice.dtos.ProductDto;
+import dev.charu.productcatalogservice.dtos.getProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Category;
 import dev.charu.productcatalogservice.models.Product;
 import dev.charu.productcatalogservice.services.ProductService;
 import io.micrometer.common.lang.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -45,6 +47,12 @@ public class ProductController {
     productresponsedtos.setProductdtos(ProductService.GetSingleproduct(productid));
     return productresponsedtos;
 }*/
+
+ @GetMapping("/page")
+ public ResponseEntity<Page<Product>> getproduct( @RequestBody getProductDto getProductDto){
+        return  ResponseEntity.of(Optional.ofNullable(productservice.getAll(getProductDto.getNumberOfResult(), getProductDto.getOffset())));
+ }
+
 @GetMapping("/{productId}")
 public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId) throws NotFoundException {
     MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();

@@ -3,6 +3,8 @@ package dev.charu.productcatalogservice.services;
 import dev.charu.productcatalogservice.dtos.ProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,8 @@ public interface ProductService {
     Product replaceProduct(Long productId, Product product);
 
     boolean deleteProduct(Long productId);
+
+    Page<Product> getAll(int numberOfResult,int offset);
 
 
 }

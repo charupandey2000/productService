@@ -9,6 +9,7 @@ import dev.charu.productcatalogservice.models.Product;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @Service
-@Primary
+//@Primary
 public class FakeStoreProductServiceImpl implements ProductService {
     private RestTemplateBuilder restTemplateBuilder;
     private FakeStoreClient fakeStoreClient;
@@ -155,6 +156,11 @@ public class FakeStoreProductServiceImpl implements ProductService {
     @Override
     public boolean deleteProduct(Long productId) {
         return false;
+    }
+
+    @Override
+    public Page<Product> getAll(int numberOfResult, int offset) {
+        return null;
     }
 
 }

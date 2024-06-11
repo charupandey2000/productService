@@ -5,11 +5,14 @@ import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Product;
 import dev.charu.productcatalogservice.repository.ProductRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service(value = "selfProductService")
+@Primary
 
 public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
@@ -63,4 +66,12 @@ public class SelfProductService implements ProductService{
         Product ResponseProduct=productRepository.save(product);
         return true;
     }
+
+    @Override
+    public Page<Product> getAll(int numberOfResult, int offset) {
+        Page<Product>response=productRepository.findAll(PageRequest.of(offset/numberOfResult,numberOfResult));
+        return response;
+    }
+
+
 }
