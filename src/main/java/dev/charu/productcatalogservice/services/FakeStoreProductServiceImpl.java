@@ -8,7 +8,6 @@ import dev.charu.productcatalogservice.models.Category;
 import dev.charu.productcatalogservice.models.Product;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;

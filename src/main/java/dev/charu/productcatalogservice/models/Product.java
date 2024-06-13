@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Getter
 @Setter
@@ -12,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="MainProductTable")
+@Document(indexName = "product")
 public class Product extends BaseModel {
 
     private String title;

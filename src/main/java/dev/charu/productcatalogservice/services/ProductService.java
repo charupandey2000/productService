@@ -4,7 +4,6 @@ import dev.charu.productcatalogservice.dtos.ProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Product;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity(name="CategoryMainTable")
+
 public class Category extends BaseModel{
 //private String name;
 //private String discription;
