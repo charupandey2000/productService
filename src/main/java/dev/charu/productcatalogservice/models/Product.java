@@ -6,6 +6,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Getter
 @Setter
@@ -13,10 +15,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="MainProductTable")
+@Data
 @Document(indexName = "product")
 public class Product extends BaseModel {
 
     private String title;
+
 
     private double price;
 

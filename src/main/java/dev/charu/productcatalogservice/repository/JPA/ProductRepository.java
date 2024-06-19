@@ -1,4 +1,4 @@
-package dev.charu.productcatalogservice.repository;
+package dev.charu.productcatalogservice.repository.JPA;
 
 import dev.charu.productcatalogservice.models.Product;
 import org.springframework.data.domain.Page;

@@ -24,11 +24,11 @@ import java.util.*;
 @Service
 //@Primary
 public class FakeStoreProductServiceImpl implements ProductService {
-    private RestTemplateBuilder restTemplateBuilder;
-    private FakeStoreClient fakeStoreClient;
-    private Map<Long, Object> fakeStoreProducts = new HashMap<>();
+    private final RestTemplateBuilder restTemplateBuilder;
+    private final FakeStoreClient fakeStoreClient;
+    private final Map<Long, Object> fakeStoreProducts = new HashMap<>();
 
-    private RedisTemplate<Long, Object> redisTemplate;
+    private final RedisTemplate<Long, Object> redisTemplate;
 
 
     public FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreClient fakeStoreClient,RedisTemplate redisTemplate) {

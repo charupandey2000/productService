@@ -50,10 +50,10 @@ public class ProductController {
     return productresponsedtos;
 }*/
 
- @GetMapping("/page")
- public ResponseEntity<Page<Product>> getproduct( @RequestBody getProductDto getProductDto){
+    @GetMapping("/page")
+    public ResponseEntity<Page<Product>> getproduct( @RequestBody getProductDto getProductDto){
         return  ResponseEntity.of(Optional.ofNullable(productservice.getAll(getProductDto.getNumberOfResult(), getProductDto.getOffset())));
- }
+    }
 
 @GetMapping("/{productId}")
 public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId) throws NotFoundException {

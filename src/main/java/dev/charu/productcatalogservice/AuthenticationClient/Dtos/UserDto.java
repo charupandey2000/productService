@@ -3,7 +3,7 @@ package dev.charu.productcatalogservice.AuthenticationClient.Dtos;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.management.relation.Role;
+
 import java.util.HashSet;
 import java.util.Set;
 @Setter
