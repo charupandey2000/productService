@@ -6,8 +6,8 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableElasticsearchRepositories("dev.charu.productcatalogservice.repository.ElasticSearch")
-@EnableJpaRepositories("dev.charu.productcatalogservice.repository.JPA")
+//@EnableElasticsearchRepositories("dev.charu.productcatalogservice.repository.ElasticSearch")
+//@EnableJpaRepositories("dev.charu.productcatalogservice.repository.JPA")
 public class ProductcatalogserviceApplication {
 
     public static void main(String[] args) {

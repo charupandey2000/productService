@@ -8,6 +8,7 @@ import dev.charu.productcatalogservice.models.Category;
 import dev.charu.productcatalogservice.models.Product;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -22,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @Service
-//@Primary
+@Primary
 public class FakeStoreProductServiceImpl implements ProductService {
     private final RestTemplateBuilder restTemplateBuilder;
     private final FakeStoreClient fakeStoreClient;
@@ -77,7 +78,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> getSingleProduct(Long productId) throws NotFoundException {
-//        FakeStoreProductDto fakeStoreProductDto = (FakeStoreProductDto) redisTemplate.opsForHash().get(productId, "PRODUCTS");
+//      FakeStoreProductDto fakeStoreProductDto = (FakeStoreProductDto) redisTemplate.opsForHash().get(productId, "PRODUCTS");
 //
 //        if (fakeStoreProductDto != null) {
 //            return Optional.of(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
@@ -107,7 +108,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
             return Optional.empty();
         }
         FakeStoreProductDto productDto1 = productDto.get();
-//        fakeStoreProducts.put(productId, productDto);
+
 
         redisTemplate.opsForHash().put(productId, "PRODUCTS", productDto1);
 

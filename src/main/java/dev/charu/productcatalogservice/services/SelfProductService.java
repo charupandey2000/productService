@@ -4,7 +4,7 @@ import dev.charu.productcatalogservice.dtos.ProductDto;
 import dev.charu.productcatalogservice.exception.NotFoundException;
 import dev.charu.productcatalogservice.models.Product;
 import dev.charu.productcatalogservice.repository.JPA.ProductRepository;
-import dev.charu.productcatalogservice.repository.ElasticSearch.searchRepository;
+//import dev.charu.productcatalogservice.repository.ElasticSearch.searchRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 @Service(value = "selfProductService")
-@Primary
+//@Primary
 
 public class SelfProductService implements ProductService{
     private final ProductRepository productRepository;
-    private searchRepository elasticSearchRepository;
+    //private searchRepository elasticSearchRepository;
 
     public SelfProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -52,7 +52,7 @@ public class SelfProductService implements ProductService{
         newProduct.setTitle(product.getTitle());
         newProduct.setPrice(product.getPrice());
         Product Responseproduct=productRepository.save(newProduct);
-        Optional<Product>response= Optional.of(elasticSearchRepository.save(newProduct));
+        //Optional<Product>response= Optional.of(elasticSearchRepository.save(newProduct));
         return Optional.of(Responseproduct);
     }
 

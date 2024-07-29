@@ -33,6 +33,13 @@ public class ProductController {
         this.authenticationClient=authenticationClient;
     }
 
+
+    @GetMapping("/hello")
+    public String sayhello(){
+        String ans="hello hello!!!";
+        return ans;
+    }
+
 //@GetMapping ("/{productid}")
 //public Product getsingleproduct(@PathVariable("productid") long productid){
 //        Product response= ProductService.GetSingleproduct(productid);
